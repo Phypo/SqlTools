@@ -161,26 +161,26 @@ public class FrameSqlTerm extends PPgFrameChild
     //-----------------------
     void connect( boolean pLogin ){
 
-				while( true ) {
-						if( pLogin == false ){
-								if( cServer.isComplete() 
-										&& (cSqlConnex = new SqlConnex( cServer, cServerBackup, cPrintStream )).connectOrLogin(PPgAppli.TheAppli,-1,-1) ) {
-										cPrintStream.println(  "Connected to " + cServer.cName );
-										//								cTextResult.append( "Connected to " + cServer.cName );
-										break;
-								}		
-						}
-						pLogin = false;
+	while( true ) {
+	    if( pLogin == false ){
+		if( cServer.isComplete() 
+		    && (cSqlConnex = new SqlConnex( cServer, cServerBackup, cPrintStream )).connectOrLogin(PPgAppli.TheAppli,-1,-1) ) {
+		    cPrintStream.println(  "Connected to " + cServer.cName );
+		    //								cTextResult.append( "Connected to " + cServer.cName );
+		    break;
+		}		
+	    }
+	    pLogin = false;
 						
-						SqlLogin lSqlLogin = new SqlLogin( PPgAppli.TheAppli, cServer, 300, 200  );
-						if( lSqlLogin.getValidation() == false ){
-								cSqlConnex.disconnect();
-								cSqlConnex = null;
-								cTextResult.append( "Not connected");
-								break;
-						}
+	    SqlLogin lSqlLogin = new SqlLogin( PPgAppli.TheAppli, cServer, 300, 200  );
+	    if( lSqlLogin.getValidation() == false ){
+		cSqlConnex.disconnect();
+		cSqlConnex = null;
+		cTextResult.append( "Not connected");
+		break;
+	    }
 						
-				}
+	}
     }
     //----------------------
     static  Rectangle sRect = new Rectangle(0,1999999999, 1, 1);
@@ -343,7 +343,7 @@ public class FrameSqlTerm extends PPgFrameChild
     //------------------------------------------------
     public void menuDeselected( MenuEvent pEv ){
 	cMenuEdit.removeAll();
-				cMenuSql.removeAll();
+	cMenuSql.removeAll();
     }
     //------------------------------------------------
     public void menuCanceled( MenuEvent pEv ){
@@ -371,7 +371,7 @@ public class FrameSqlTerm extends PPgFrameChild
 		}
 		else
 		    if( pEv.getActionCommand().equals( cStrClearAll )){
-						clearAll();
+			clearAll();
 		    }
 		    else
 			if( pEv.getActionCommand().equals(cStrConnect)) {
@@ -384,7 +384,7 @@ public class FrameSqlTerm extends PPgFrameChild
 		boolean lRes = cSqlConnex.sendCommandAndPrintResult( lOrder );
 		gotoEnd();
 	    }
-				}
+	}
 	else
 	    if( pEv.getActionCommand().equals( cStrSendSelectWin )){
 		String lOrder;

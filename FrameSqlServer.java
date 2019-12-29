@@ -35,53 +35,53 @@ class  ServerLine implements PPgTableLine{
     
     
     public String  getColumnName( int pCol){
-				switch( pCol ){
-				case 0 : return "Server";
-				case 1 : return "User";
-				}
-				return null;
+	switch( pCol ){
+	case 0 : return "Server";
+	case 1 : return "User";
+	}
+	return null;
     }
     
     public int     getColumnCount(){
-				return 2;
+	return 2;
     }
     
     public Object  getValueAt( int pCol ){
-				switch( pCol ){
-				case 0 : return cServer.cName;
-				case 1 : return cServer.cUser;
-				}
-				return null;
+	switch( pCol ){
+	case 0 : return cServer.cName;
+	case 1 : return cServer.cUser;
+	}
+	return null;
     }
     
     public boolean isCellEditable( int pCol ){
-				return false;
+	return false;
     }
     
     public void    setValueAt( Object pValue, int pCol ){
     }
     
     public Class   getColumnClass( int pCol ){
-				return cServer.cName.getClass();
+	return cServer.cName.getClass();
     }
     
     public boolean write( PrintStream pOut ){
-				return true;
+	return true;
     }
     public PPgTableLine createNewLine( String pVal){
-				return null;
+	return null;
     }
     
     public boolean   isSortable(int pCol ){
-				return true;
+	return true;
     }
     public int       compareTo(PPgTableLine pLine, int pCol){
-				ServerLine lLine = (ServerLine)pLine;
-				switch( pCol ){
-				case 0 : return cServer.cName.compareTo( lLine.cServer.cName );
-				case 1 : return cServer.cUser.compareTo( lLine.cServer.cUser );
-				}
-				return 0;
+	ServerLine lLine = (ServerLine)pLine;
+	switch( pCol ){
+	case 0 : return cServer.cName.compareTo( lLine.cServer.cName );
+	case 1 : return cServer.cUser.compareTo( lLine.cServer.cUser );
+	}
+	return 0;
     }
 }
 //***********************************
@@ -123,72 +123,72 @@ public class FrameSqlServer extends PPgFrameTable {
     //-------------
     public void mousePressed( MouseEvent pEv )  { 
 	
-				System.out.println( "FrameSqlServer.mousePressed" );
+	System.out.println( "FrameSqlServer.mousePressed" );
 				
-				cLastMenuLine = -1;
-				if( pEv.getSource() == getTable().getJTable() ){
-						cLastMenuLine = getTable().getJTable().rowAtPoint(pEv.getPoint());
-				}
+	cLastMenuLine = -1;
+	if( pEv.getSource() == getTable().getJTable() ){
+	    cLastMenuLine = getMouseLineNumber( pEv );
+	}
 				
 				
-				if(  SwingUtilities.isLeftMouseButton( pEv ) == true &&  pEv.getClickCount() == 2 ){
-						ServerLine lCurrentServer = (ServerLine)getTable().getList().get( cLastMenuLine );
-						if( lCurrentServer != null ){
-								//								if( SwingUtilities.isLeftMouseButton( pEv ) ){
-								//										SqlTerm lSqlTerm = new SqlTerm( lCurrentServer.cServer, null );								
-								//										PPAppli.ThePPAppli.addChild( lSqlTerm );
-								//
-								//										lSqlTerm.setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );										
-								//								}
-								//								else
-								//if( SwingUtilities.isMiddleMouseButton( pEv ) )  {	
-								FrameSqlMultiTerm lConnex = new FrameSqlMultiTerm( lCurrentServer.cServer, null, "" );								
-								PPgAppli.TheAppli.addChild( lConnex );
+	if(  SwingUtilities.isLeftMouseButton( pEv ) == true &&  pEv.getClickCount() == 2 ){
+	    ServerLine lCurrentServer = (ServerLine)getLine( cLastMenuLine );
+	    if( lCurrentServer != null ){
+		//								if( SwingUtilities.isLeftMouseButton( pEv ) ){
+		//										SqlTerm lSqlTerm = new SqlTerm( lCurrentServer.cServer, null );								
+		//										PPAppli.ThePPAppli.addChild( lSqlTerm );
+		//
+		//										lSqlTerm.setDefaultCloseOperation( WindowConstants.DISPOSE_ON_CLOSE );										
+		//								}
+		//								else
+		//if( SwingUtilities.isMiddleMouseButton( pEv ) )  {	
+		FrameSqlMultiTerm lConnex = new FrameSqlMultiTerm( lCurrentServer.cServer, null, "" );								
+		PPgAppli.TheAppli.addChild( lConnex );
 		//}
-						}
-				}
-				else
-						if( SwingUtilities.isRightMouseButton( pEv ) == true 
-								&& pEv.getClickCount() == 1 ) {
+	    }
+	}
+	else
+	    if( SwingUtilities.isRightMouseButton( pEv ) == true 
+		&& pEv.getClickCount() == 1 ) {
 								
-								JPopupMenu lPopmenu = new JPopupMenu();
+		JPopupMenu lPopmenu = new JPopupMenu();
 	    
-								JMenuItem lItem;
+		JMenuItem lItem;
 								
-								lItem= new JMenuItem( cStrNew );
-								lPopmenu.add( lItem );
-								lItem.addActionListener( this );	 
+		lItem= new JMenuItem( cStrNew );
+		lPopmenu.add( lItem );
+		lItem.addActionListener( this );	 
 								
-								if( cLastMenuLine != -1 ){
-										lItem= new JMenuItem( cStrEdit );
-										lPopmenu.add( lItem );
-										lItem.addActionListener( this );	 
+		if( cLastMenuLine != -1 ){
+		    lItem= new JMenuItem( cStrEdit );
+		    lPopmenu.add( lItem );
+		    lItem.addActionListener( this );	 
 										
-										lItem= new JMenuItem( cStrDel );
-										lPopmenu.add( lItem );
-										lItem.addActionListener( this );
+		    lItem= new JMenuItem( cStrDel );
+		    lPopmenu.add( lItem );
+		    lItem.addActionListener( this );
 										
-										lPopmenu.add( new JSeparator() );
+		    lPopmenu.add( new JSeparator() );
 										
-										lItem= new JMenuItem( cStrOpenTerm );
-										lPopmenu.add( lItem );																		
-										lItem.addActionListener( this );
-										lItem= new JMenuItem( cStrOpenMultiTerm );
-										lPopmenu.add( lItem );																		
-										lItem.addActionListener( this );
+		    lItem= new JMenuItem( cStrOpenTerm );
+		    lPopmenu.add( lItem );																		
+		    lItem.addActionListener( this );
+		    lItem= new JMenuItem( cStrOpenMultiTerm );
+		    lPopmenu.add( lItem );																		
+		    lItem.addActionListener( this );
 										
-										lPopmenu.add( new JSeparator() );
+		    lPopmenu.add( new JSeparator() );
 										
-										lItem= new JMenuItem( cStrOpenDatabaseWin  );
-										lPopmenu.add( lItem );
-										lItem.addActionListener( this );	 
-								}
+		    lItem= new JMenuItem( cStrOpenDatabaseWin  );
+		    lPopmenu.add( lItem );
+		    lItem.addActionListener( this );	 
+		}
 	    
 								
-								lPopmenu.show( pEv.getComponent(),
-															 pEv.getX(),
-															 pEv.getY() );												
-						}					
+		lPopmenu.show( pEv.getComponent(),
+			       pEv.getX(),
+			       pEv.getY() );												
+	    }					
     }
     //-------------------------------------------
     //-------------------------------------------
@@ -197,72 +197,72 @@ public class FrameSqlServer extends PPgFrameTable {
     //-------------------------------------------
     public void actionPerformed( ActionEvent pEv ){ 
 				
-				if( pEv.getActionCommand().equals( cStrNew  )) {
-						SqlServer lServer = new SqlServer();
-						SqlLogin lLogin = new SqlLogin( SqlTools.TheAppli, lServer, IniParam.sDialogX, IniParam.sDialogY );
-						if( lLogin.getValidation() ){
-								add( new ServerLine( lServer, lLogin ) );
-						}
-				}
-				else
-						if( pEv.getActionCommand().equals(cStrEdit  ) && cLastMenuLine != -1) {
-								ServerLine lCurrentServer = (ServerLine)getTable().getList().get( cLastMenuLine );
-								if( lCurrentServer != null ){
-										SqlServer lServer = new SqlServer(lCurrentServer.cServer);
-										SqlLogin lLogin = new SqlLogin( SqlTools.TheAppli, lServer, IniParam.sDialogX, IniParam.sDialogY );
-										if( lLogin.getValidation() ){
-												lCurrentServer.cServer = lServer;
-												lCurrentServer.cLogin  = lLogin;
-												getTable().fireTableDataChanged();
-										}
-								}
-						}		
-						else
-								if( pEv.getActionCommand().equals(cStrDel  ) && cLastMenuLine != -1) {
-										ServerLine lCurrentServer = (ServerLine)getTable().getList().get( cLastMenuLine );
-										if( lCurrentServer != null ){
-												int lPos = 	getTable().getList().indexOf( lCurrentServer );
-												if( lPos != -1 ) {												
-														getTable().getList().remove( lPos );
-														getTable().fireTableDataChanged();
-												}
-										}
-								}				
-								else
-									if( pEv.getActionCommand().equals(cStrOpenTerm  ) && cLastMenuLine != -1) {
-											ServerLine lCurrentServer = (ServerLine)getTable().getList().get( cLastMenuLine );
-											if( lCurrentServer != null ){
-													FrameSqlTerm lConnex = new FrameSqlTerm( lCurrentServer.cServer, null, "", FrameSqlTerm.SendingMode.SendSimpleAndSelectAndWin);
-													PPgAppli.TheAppli.addChild( lConnex );
-											}
-									}				
-									else
-										if( pEv.getActionCommand().equals(cStrOpenMultiTerm  ) && cLastMenuLine != -1) {
-												ServerLine lCurrentServer = (ServerLine)getTable().getList().get( cLastMenuLine );
-												if( lCurrentServer != null ){
-													FrameSqlMultiTerm lConnex = new FrameSqlMultiTerm( lCurrentServer.cServer, null, "" );								
-													PPgAppli.TheAppli.addChild( lConnex );
-												}
-										}				
-										else
-												if( pEv.getActionCommand().equals( cStrOpenDatabaseWin ) && cLastMenuLine != -1) {
-														ServerLine lCurrentServer = (ServerLine)getTable().getList().get( cLastMenuLine );
-														
-														//Sybase		//String lOrder =  "SELECT name , dbid, status, version, crdate FROM master..sysdatabases ORDER BY name";
-														String lOrder = "SHOW DATABASES";
-														
-														//   String lOrder = "SELECT SCHEMA_NAME FROM information_schema.SCHEMATA";
-														SqlConnex lSqlConnex = null;
-														
-														if( lCurrentServer.cServer.isComplete() 
-																&& (lSqlConnex = new SqlConnex( lCurrentServer.cServer, null, null )).connectOrLogin(PPgAppli.TheAppli,-1,-1) ) {										
-																System.out.println( " lSqlConnex.sendCommandAndSetResult -> " + lOrder );
-
-																lSqlConnex.sendCommandAndSetResult( lOrder, new SqlDataResult( lCurrentServer.cServer, 
-																																															 lCurrentServer.cServer.cName + ":Databases",	
-																																															 "DataTableBaseMenu_SysTable", null  ) );
-														}		
+	if( pEv.getActionCommand().equals( cStrNew  )) {
+	    SqlServer lServer = new SqlServer();
+	    SqlLogin lLogin = new SqlLogin( SqlTools.TheAppli, lServer, IniParam.sDialogX, IniParam.sDialogY );
+	    if( lLogin.getValidation() ){
+		add( new ServerLine( lServer, lLogin ) );
+	    }
+	}
+	else
+	    if( pEv.getActionCommand().equals(cStrEdit  ) && cLastMenuLine != -1) {
+		ServerLine lCurrentServer = (ServerLine)getLine( cLastMenuLine );
+		if( lCurrentServer != null ){
+		    SqlServer lServer = new SqlServer(lCurrentServer.cServer);
+		    SqlLogin lLogin = new SqlLogin( SqlTools.TheAppli, lServer, IniParam.sDialogX, IniParam.sDialogY );
+		    if( lLogin.getValidation() ){
+			lCurrentServer.cServer = lServer;
+			lCurrentServer.cLogin  = lLogin;
+			fireTableDataChanged();
+			updateStatusRowCount();
+		    }
+		}
+	    }		
+	    else
+		if( pEv.getActionCommand().equals(cStrDel  ) && cLastMenuLine != -1) {
+		    ServerLine lCurrentServer = (ServerLine)getLine( cLastMenuLine );
+		    if( lCurrentServer != null ){
+			int lPos = 	getTable().getList().indexOf( lCurrentServer );
+			if( lPos != -1 ) {												
+			    removeLineAndRedraw( lPos );
 			}
+		    }
+		}				
+		else
+		    if( pEv.getActionCommand().equals(cStrOpenTerm  ) && cLastMenuLine != -1) {
+			ServerLine lCurrentServer = (ServerLine)getLine( cLastMenuLine );
+			if( lCurrentServer != null ){
+			    FrameSqlTerm lConnex = new FrameSqlTerm( lCurrentServer.cServer, null, "", FrameSqlTerm.SendingMode.SendSimpleAndSelectAndWin);
+			    PPgAppli.TheAppli.addChild( lConnex );
+			}
+		    }				
+		    else
+			if( pEv.getActionCommand().equals(cStrOpenMultiTerm  ) && cLastMenuLine != -1) {
+			    ServerLine lCurrentServer = (ServerLine)getLine( cLastMenuLine );
+			    if( lCurrentServer != null ){
+				FrameSqlMultiTerm lConnex = new FrameSqlMultiTerm( lCurrentServer.cServer, null, "" );								
+				PPgAppli.TheAppli.addChild( lConnex );
+			    }
+			}				
+			else
+			    if( pEv.getActionCommand().equals( cStrOpenDatabaseWin ) && cLastMenuLine != -1) {
+				ServerLine lCurrentServer = (ServerLine)getLine( cLastMenuLine );
+														
+				//Sybase		//String lOrder =  "SELECT name , dbid, status, version, crdate FROM master..sysdatabases ORDER BY name";
+				String lOrder = "SHOW DATABASES";
+														
+				//   String lOrder = "SELECT SCHEMA_NAME FROM information_schema.SCHEMATA";
+				SqlConnex lSqlConnex = null;
+														
+				if( lCurrentServer.cServer.isComplete() 
+				    && (lSqlConnex = new SqlConnex( lCurrentServer.cServer, null, null )).connectOrLogin(PPgAppli.TheAppli,-1,-1) ) {										
+				    System.out.println( " lSqlConnex.sendCommandAndSetResult -> " + lOrder );
+
+				    lSqlConnex.sendCommandAndSetResult( lOrder, new SqlDataResult( lCurrentServer.cServer, 
+												   lCurrentServer.cServer.cName + ":Databases",	
+												   "DataTableBaseMenu_SysTable", null  ) );
+				}		
+			    }
 	
     }				
 }

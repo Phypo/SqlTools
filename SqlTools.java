@@ -85,6 +85,7 @@ public class SqlTools extends PPgAppli{
 	getContentPane().add( cFootBar, BorderLayout.SOUTH );
 	
 	sFrameServer = new FrameSqlServer( cIniFile );
+
 	addChild(sFrameServer);
 	
     }
@@ -128,126 +129,126 @@ public class SqlTools extends PPgAppli{
 	
 	
 	//======== VIEW =======
-				lMenu = new JMenu("View");
+	lMenu = new JMenu("View");
 				
-				addItem( lMenu,  cStrServersWin);
+	addItem( lMenu,  cStrServersWin);
 
-				c_menubar.add(lMenu);	
-				//=====================
+	c_menubar.add(lMenu);	
+	//=====================
 
-				//======== HELP ======= 
-				lMenu = new JMenu("Help");
-				/////////////////				addItem( lMenu, cStrHelpContents );
-				addItem( lMenu, cStrAbout );
-				c_menubar.add(lMenu);	
-				//=====================
+	//======== HELP ======= 
+	lMenu = new JMenu("Help");
+	/////////////////				addItem( lMenu, cStrHelpContents );
+	addItem( lMenu, cStrAbout );
+	c_menubar.add(lMenu);	
+	//=====================
 
+    }
+    //---------------------
+    public void actionPerformed( ActionEvent pEv ){
+
+	if( pEv.getActionCommand().equals( cStrQuit )) {
+	    System.exit(0);		
+	}
+	else
+	    if( pEv.getActionCommand().equals( cStrSavConfig)) {
+		saveIni( cIniFile );
+		//								cIniFile.writeFile( sStrIniFile );
+	    }
+	    else
+		if( pEv.getActionCommand().equals( cStrServersWin )) {		
+		    sFrameServer.show();
 		}
-		//---------------------
-		public void actionPerformed( ActionEvent pEv ){
-
-				if( pEv.getActionCommand().equals( cStrQuit )) {
-								System.exit(0);		
-						}
-				else
-						if( pEv.getActionCommand().equals( cStrSavConfig)) {
-								saveIni( cIniFile );
-								//								cIniFile.writeFile( sStrIniFile );
-						}
-			 else
-					 if( pEv.getActionCommand().equals( cStrServersWin )) {		
-							 sFrameServer.show();
-					 }
   		else
-					if( pEv.getActionCommand().equals( cStrReloadConfig )){
-							PPgIniFile lIniObj = new PPgIniFile( sStrIniFile );
-							cIniFile = lIniObj;
-							IniParam.ReadIni(cIniFile);				
-					}
-			else
-						if( pEv.getActionCommand().equals( cStrHelpContents )){
-								if( cFrameHelp == null )
-										addChild( ( cFrameHelp=new PPgHelpChild( "book.html") ));						
-								else
-										cFrameHelp.front();
-						}
-			  else
-						if( pEv.getActionCommand().equals( cStrAbout )){
-								new PPAbout( "SqlTools", sVersion, "cdv", "2004/02/04", "phipo@padev013" );
-						}
-		}
-		//---------------------
-		public void itemStateChanged(ItemEvent pEv ){
-
-				Object lSource = pEv.getItemSelectable();
-
-		}
-		//---------------------
-		//---------------------
-		void saveIni(PPgIniFile pIni){
-
-		    pIni.set( "Frame", "Mother",
-			      ((int)getLocation().getX())+","+
-			      ((int)getLocation().getY())+","+
-			      ((int)getSize().getWidth())+","+
-			      ((int)getSize().getHeight()) );
-		    
-		    IniParam.SaveIni(pIni);				
-		}
-
-		//-----------------------------
-		public static void main(String[] args) {
-				
-		    System.out.println( "main " + args );
-		    
-
-		    Integer lVerbose  = PPgParam.GetInt( args, "-v", 0);
-
-		    sStrIniFile = PPgParam.GetString( args, "-I", sStrIniFile );
-		    PPgIniFile lIniObj = new PPgIniFile( sStrIniFile);
-		    
-		    String  lType     = PPgParam.GetString( args, "-T", null );
-		    String  lHost     = PPgParam.GetString( args, "-M", null );
-		    String  lUrl      = PPgParam.GetString( args, "-U", null );
-		    Integer lPort     = PPgParam.GetInt( args, "-P", 0 );  
-		    
-		    ////				lIniObj.debug();
-		    /*
-		      if( lHost == null )
-		      lHost= lIniObj.get( "SrvMonitor", "Host" );
-		      
-		      if( lPort == null )
-		      lPort = lIniObj.getInteger( "SrvMonitor", "Port" );
-		      
-		      
-		      //				System.out.println( lHost +":" + lPort );
-		      
-		      if( lHost == null || lPort == null ){						
-		      System.out.println( "Give me Server Monitor Host and Port !" );
-		      System.exit(1);
-		      }
-		    */
-		    
-		    IniParam.ReadIni(lIniObj);
-		    
-		    new SqlTools(lIniObj);
-		    
-		    
-		    String lTraceTerminal = lIniObj.get( "Debug", "TraceTerminal" );
-		    if( lTraceTerminal != null && lTraceTerminal.equals( "true" )){						
-			PPTraceTerm lTraceWin = new PPTraceTerm("Trace");
-			sTrace = lTraceWin.stream();
-			System.setOut( SqlTools.sTrace );
+		    if( pEv.getActionCommand().equals( cStrReloadConfig )){
+			PPgIniFile lIniObj = new PPgIniFile( sStrIniFile );
+			cIniFile = lIniObj;
+			IniParam.ReadIni(cIniFile);				
 		    }
+		    else
+			if( pEv.getActionCommand().equals( cStrHelpContents )){
+			    if( cFrameHelp == null )
+				addChild( ( cFrameHelp=new PPgHelpChild( "book.html") ));						
+			    else
+				cFrameHelp.front();
+			}
+			else
+			    if( pEv.getActionCommand().equals( cStrAbout )){
+				new PPAbout( "SqlTools", sVersion, "cdv", "2004/02/04", "phipo@padev013" );
+			    }
+    }
+    //---------------------
+    public void itemStateChanged(ItemEvent pEv ){
+
+	Object lSource = pEv.getItemSelectable();
+
+    }
+    //---------------------
+    //---------------------
+    void saveIni(PPgIniFile pIni){
+
+	pIni.set( "Frame", "Mother",
+		  ((int)getLocation().getX())+","+
+		  ((int)getLocation().getY())+","+
+		  ((int)getSize().getWidth())+","+
+		  ((int)getSize().getHeight()) );
 		    
-		    SqlTools.SetFootText( "Initialisation" );
+	IniParam.SaveIni(pIni);				
+    }
+
+    //-----------------------------
+    public static void main(String[] args) {
+				
+	System.out.println( "main " + args );
+		    
+
+	Integer lVerbose  = PPgParam.GetInt( args, "-v", 0);
+
+	sStrIniFile = PPgParam.GetString( args, "-I", sStrIniFile );
+	PPgIniFile lIniObj = new PPgIniFile( sStrIniFile);
+		    
+	String  lType     = PPgParam.GetString( args, "-T", null );
+	String  lHost     = PPgParam.GetString( args, "-M", null );
+	String  lUrl      = PPgParam.GetString( args, "-U", null );
+	Integer lPort     = PPgParam.GetInt( args, "-P", 0 );  
+		    
+	////				lIniObj.debug();
+	/*
+	  if( lHost == null )
+	  lHost= lIniObj.get( "SrvMonitor", "Host" );
+		      
+	  if( lPort == null )
+	  lPort = lIniObj.getInteger( "SrvMonitor", "Port" );
+		      
+		      
+	  //				System.out.println( lHost +":" + lPort );
+		      
+	  if( lHost == null || lPort == null ){						
+	  System.out.println( "Give me Server Monitor Host and Port !" );
+	  System.exit(1);
+	  }
+	*/
+		    
+	IniParam.ReadIni(lIniObj);
+		    
+	new SqlTools(lIniObj);
+		    
+		    
+	String lTraceTerminal = lIniObj.get( "Debug", "TraceTerminal" );
+	if( lTraceTerminal != null && lTraceTerminal.equals( "true" )){						
+	    PPTraceTerm lTraceWin = new PPTraceTerm("Trace");
+	    sTrace = lTraceWin.stream();
+	    System.setOut( SqlTools.sTrace );
+	}
+		    
+	SqlTools.SetFootText( "Initialisation" );
 		    
 			
-		    TheAppli.setVisible(true);
+	TheAppli.setVisible(true);
 		    
 		    
-		    if( lVerbose != null )
-			PPgTrace.sVerbose = lVerbose.intValue();							
-		}
+	if( lVerbose != null )
+	    PPgTrace.sVerbose = lVerbose.intValue();							
+    }
 }
 //***********************************
