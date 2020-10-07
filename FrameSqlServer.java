@@ -201,7 +201,7 @@ public class FrameSqlServer extends PPgFrameTable {
 	    SqlServer lServer = new SqlServer();
 	    SqlLogin lLogin = new SqlLogin( SqlTools.TheAppli, lServer, IniParam.sDialogX, IniParam.sDialogY );
 	    if( lLogin.getValidation() ){
-		add( new ServerLine( lServer, lLogin ) );
+		addLineAndRedraw( new ServerLine( lServer, lLogin ) );
 	    }
 	}
 	else
@@ -213,8 +213,7 @@ public class FrameSqlServer extends PPgFrameTable {
 		    if( lLogin.getValidation() ){
 			lCurrentServer.cServer = lServer;
 			lCurrentServer.cLogin  = lLogin;
-			fireTableDataChanged();
-			updateStatusRowCount();
+			forceRedraw();
 		    }
 		}
 	    }		

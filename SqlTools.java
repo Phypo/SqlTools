@@ -118,13 +118,13 @@ public class SqlTools extends PPgAppli{
 	addItem( lMenu, cStrSavConfig );
 	lMenu.add( new JSeparator() );
 	addItem( lMenu, cStrQuit );
-	c_menubar.add(lMenu);	
+	cMenubar.add(lMenu);	
 	//=====================
 	
 	
 	//======== EDIT =======
 	lMenu = new JMenu("Edit");
-	c_menubar.add(lMenu);	
+	cMenubar.add(lMenu);	
 	//=====================
 	
 	
@@ -133,14 +133,14 @@ public class SqlTools extends PPgAppli{
 				
 	addItem( lMenu,  cStrServersWin);
 
-	c_menubar.add(lMenu);	
+	cMenubar.add(lMenu);	
 	//=====================
 
 	//======== HELP ======= 
 	lMenu = new JMenu("Help");
 	/////////////////				addItem( lMenu, cStrHelpContents );
 	addItem( lMenu, cStrAbout );
-	c_menubar.add(lMenu);	
+	cMenubar.add(lMenu);	
 	//=====================
 
     }
@@ -174,7 +174,7 @@ public class SqlTools extends PPgAppli{
 			}
 			else
 			    if( pEv.getActionCommand().equals( cStrAbout )){
-				new PPAbout( "SqlTools", sVersion, "cdv", "2004/02/04", "phipo@padev013" );
+				new PPAbout( "SqlTools", sVersion, "cdv", "2004/02/04", "phipo@padev013", null );
 			    }
     }
     //---------------------
@@ -248,7 +248,7 @@ public class SqlTools extends PPgAppli{
 		    
 		    
 	if( lVerbose != null )
-	    PPgTrace.sVerbose = lVerbose.intValue();							
+	    PPgTrace.SetVerbose( lVerbose.intValue());
     }
 }
 //***********************************
